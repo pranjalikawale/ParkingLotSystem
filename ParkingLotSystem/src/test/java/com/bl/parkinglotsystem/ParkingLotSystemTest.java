@@ -1,5 +1,8 @@
 package com.bl.parkinglotsystem;
 
+import com.bl.parkinglotsystem.exception.ParkingLotSystemException;
+import com.bl.parkinglotsystem.model.ParkingLotOwner;
+import com.bl.parkinglotsystem.parkinglotsystem.ParkingLotSystem;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +13,7 @@ public class ParkingLotSystemTest {
 
     @Before
     public void setUp(){
-        parkingLotSystem=new ParkingLotSystem();
+        parkingLotSystem=new ParkingLotSystem(2);
         vehicle=new Object();
     }
 
@@ -22,7 +25,7 @@ public class ParkingLotSystemTest {
             Assert.assertTrue(isParked);
         }
         catch (ParkingLotSystemException e){
-            e.printStackTrace();
+            Assert.assertEquals(e.getMessage(),"Parking lot is full");
         }
     }
 
@@ -34,7 +37,6 @@ public class ParkingLotSystemTest {
         }
         catch (ParkingLotSystemException e){
             Assert.assertEquals(e.getMessage(),"Parking lot is full");
-            e.printStackTrace();
         }
     }
 
@@ -45,7 +47,6 @@ public class ParkingLotSystemTest {
             parkingLotSystem.unPark(vehicle);
         }catch (ParkingLotSystemException e){
             Assert.assertEquals(e.getMessage(),"Parking lot is Empty");
-            e.printStackTrace();
         }
     }
     @Test
@@ -55,7 +56,19 @@ public class ParkingLotSystemTest {
         }
         catch (ParkingLotSystemException e){
             Assert.assertEquals(e.getMessage(),"Parking lot is Empty");
-            e.printStackTrace();
+        }
+    }
+    @Test
+    public void givenWhenParkingLotIsFull_ShouldInformedOwner() {
+        ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
+        parkingLotSystem.registerSubscriber(parkingLotOwner);
+        try {
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(new Object());
+        }
+        catch (ParkingLotSystemException e){
+            boolean capacityFull=parkingLotOwner.IsCapacityFull();
+            Assert.assertTrue(capacityFull);
         }
     }
 }
