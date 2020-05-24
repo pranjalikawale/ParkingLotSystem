@@ -16,21 +16,46 @@ public class ParkingLotSystemTest {
 
     @Test
     public void givenAVehicle_WhenParked_ShouldReturnTrue() {
-        boolean isParked=parkingLotSystem.park(vehicle);
-        Assert.assertTrue(isParked);
+        try {
+            parkingLotSystem.park(vehicle);
+            boolean isParked=parkingLotSystem.isVehicleParked(vehicle);
+            Assert.assertTrue(isParked);
+        }
+        catch (ParkingLotSystemException e){
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void givenAVehicle_WhenAlreadyParked_ShouldReturnFalse() {
-        parkingLotSystem.park(vehicle);
-        boolean isParked=parkingLotSystem.park(new Object());
-        Assert.assertFalse(isParked);
+    public void givenAVehicle_WhenParkingIsFull_ShouldReturnException() {
+        try {
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(new Object());
+        }
+        catch (ParkingLotSystemException e){
+            Assert.assertEquals(e.getMessage(),"Parking lot is full");
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void givenAVehicle_WhenUnParked_ShouldReturnTrue() {
-        parkingLotSystem.park(vehicle);
-        boolean isParked=parkingLotSystem.unPark(vehicle);
-        Assert.assertTrue(isParked);
+        try {
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.unPark(vehicle);
+        }catch (ParkingLotSystemException e){
+            Assert.assertEquals(e.getMessage(),"Parking lot is Empty");
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void givenAVehicle_WhenUnParked_ShouldReturn() {
+        try {
+            parkingLotSystem.unPark(vehicle);
+        }
+        catch (ParkingLotSystemException e){
+            Assert.assertEquals(e.getMessage(),"Parking lot is Empty");
+            e.printStackTrace();
+        }
     }
 }
