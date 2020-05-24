@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bl.parkinglotsystem.ParkingLotSystemTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2020-05-24T23:14:44" hostname="SWAPNIKA" time="0.016">
+<testsuite name="com.bl.parkinglotsystem.ParkingLotSystemTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-05-24T23:29:54" hostname="SWAPNIKA" time="0.026">
   <properties/>
-  <testcase name="givenAVehicle_WhenParkingIsFull_ShouldReturnException" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.004"/>
-  <testcase name="givenAVehicle_WhenParked_ShouldReturnTrue" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.0"/>
-  <testcase name="givenAVehicle_WhenUnParked_ShouldReturn" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.0"/>
-  <testcase name="givenWhenParkingLotIsFull_ShouldInformedOwner" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.003"/>
+  <testcase name="givenAVehicle_WhenParkingIsFull_ShouldReturnException" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.006"/>
+  <testcase name="givenAVehicle_WhenParked_ShouldReturnTrue" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.002"/>
+  <testcase name="givenAVehicle_WhenUnParked_ShouldReturn" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenParkingLot_WhenParkingLotIsFulll_ShouldInformedAirportSecurity" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.003"/>
   <testcase name="givenAVehicle_WhenUnParked_ShouldReturnTrue" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenParkingLot_WhenParkingLotIsFull_ShouldInformedOwner" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
