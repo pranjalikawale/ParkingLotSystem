@@ -7,6 +7,7 @@ import org.junit.Test;
 public class ParkingLotSystemTest {
     ParkingLotSystem parkingLotSystem;
     Object vehicle;
+
     @Before
     public void setUp(){
         parkingLotSystem=new ParkingLotSystem();
@@ -16,6 +17,13 @@ public class ParkingLotSystemTest {
     @Test
     public void givenAVehicle_WhenParked_ShouldReturnTrue() {
         boolean isParked=parkingLotSystem.park(vehicle);
+        Assert.assertTrue(isParked);
+    }
+
+    @Test
+    public void givenAVehicle_WhenUnParked_ShouldReturnTrue() {
+        parkingLotSystem.park(vehicle);
+        boolean isParked=parkingLotSystem.unPark(vehicle);
         Assert.assertTrue(isParked);
     }
 }
