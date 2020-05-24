@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bl.parkinglotsystem.ParkingLotSystemTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-05-24T13:51:41" hostname="SWAPNIKA" time="0.004">
+<testsuite name="com.bl.parkinglotsystem.ParkingLotSystemTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-05-24T14:05:55" hostname="SWAPNIKA" time="0.005">
   <properties/>
-  <testcase name="givenAVehicle_WhenParked_ShouldReturnTrue" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.004"/>
+  <testcase name="givenAVehicle_WhenAlreadyParked_ShouldReturnFalse" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.005"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
