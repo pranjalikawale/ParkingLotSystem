@@ -197,13 +197,14 @@ public class ParkingLotSystemTest {
             int token=parkingLotSystem.park(vehicle);
             parkingLotSystem.park(new Vehicle());
             parkingLotSystem.unPark(token);
-            Assert.assertEquals(2,parkingLotSystem.getEmptyList().size());
+            Assert.assertEquals(2,parkingLotSystem.getEmptyListSize());
         }
         catch (ParkingLotSystemException e){
             boolean capacityEmpty=parkingLotOwner.IsCapacitySpaceAvailable();
             Assert.assertFalse(capacityEmpty);
         }
     }
+
 
 
 }

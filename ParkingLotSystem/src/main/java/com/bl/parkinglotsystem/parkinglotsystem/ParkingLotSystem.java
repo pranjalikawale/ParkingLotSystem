@@ -39,9 +39,13 @@ public class ParkingLotSystem {
        for(int i=0;i<capacity;i++)
            emptyList.add(i);
     }
-
+    /*
     public List<Integer> getEmptyList() {
         return emptyList;
+    }*/
+
+    public int getEmptyListSize() {
+        return emptyList.size();
     }
 
     public int park(Vehicle vehicle) throws ParkingLotSystemException {
