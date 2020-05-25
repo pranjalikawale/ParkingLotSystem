@@ -34,20 +34,17 @@ public class ParkingLotSystem {
     }
 
     public void unPark(Object vehicle) throws ParkingLotSystemException{
-        if (vehicle==null){
+        if (vehicle==null)
             throw new ParkingLotSystemException("Parking lot is Empty");
-        }
 
         if (isVehicleParked(vehicle)){
-            vehicleList.remove(vehicle);
-            if (vehicleList.size()<capacity){
-                for (Observer subscriber:subscriberList) {
+            if (vehicleList.size()==capacity){
+                for (Observer subscriber:subscriberList)
                     subscriber.capacityIsSpaceAvailable();
-                }
                 throw new ParkingLotSystemException("Space Available in parking lot");
             }
+            vehicleList.remove(vehicle);
         }
-
     }
 
     public boolean isVehicleParked(Object vehicle) {

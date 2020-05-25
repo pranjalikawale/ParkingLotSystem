@@ -29,11 +29,22 @@ public class ParkingLotSystemTest {
             Assert.assertEquals(e.getMessage(),"Parking lot is full");
         }
     }
+    @Test
+    public void givenAVehicle_WhenAlreadyParked_ShouldReturnException() {
+        try {
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(vehicle);
+        }
+        catch (ParkingLotSystemException e){
+            Assert.assertEquals(e.getMessage(),"Vehicle is already parked");
+        }
+    }
 
     @Test
     public void givenAVehicle_WhenParkingIsFull_ShouldReturnException() {
         try {
             parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(new Object());
             parkingLotSystem.park(new Object());
         }
         catch (ParkingLotSystemException e){
@@ -51,9 +62,9 @@ public class ParkingLotSystemTest {
         }
     }
     @Test
-    public void givenAVehicle_WhenUnParked_ShouldReturn() {
+    public void givenAVehicle_WhenUnParked_ShouldReturnException() {
         try {
-            parkingLotSystem.unPark(vehicle);
+            parkingLotSystem.unPark(null);
         }
         catch (ParkingLotSystemException e){
             Assert.assertEquals(e.getMessage(),"Parking lot is Empty");
@@ -65,6 +76,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerSubscriber(parkingLotOwner);
         try {
             parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(new Object());
             parkingLotSystem.park(new Object());
         }
         catch (ParkingLotSystemException e){
@@ -78,6 +90,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerSubscriber(airportSecurity);
         try {
             parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(new Object());
             parkingLotSystem.park(new Object());
         }
         catch (ParkingLotSystemException e){
@@ -93,6 +106,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerSubscriber(parkingLotOwner);
         try {
             parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(new Object());
             parkingLotSystem.park(new Object());
         }
         catch (ParkingLotSystemException e){
