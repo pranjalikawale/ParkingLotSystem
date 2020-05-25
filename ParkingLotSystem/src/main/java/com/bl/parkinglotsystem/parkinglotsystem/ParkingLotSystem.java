@@ -42,9 +42,9 @@ public class ParkingLotSystem {
             vehicleList.remove(vehicle);
             if (vehicleList.size()<capacity){
                 for (Observer subscriber:subscriberList) {
-                    subscriber.capacityIsEmpty();
+                    subscriber.capacityIsSpaceAvailable();
                 }
-                throw new ParkingLotSystemException("Parking lot is Empty");
+                throw new ParkingLotSystemException("Space Available in parking lot");
             }
         }
 

@@ -11,7 +11,7 @@ public class ParkingLotOwner implements Observer {
     }
 
     @Override
-    public boolean IsCapacityEmpty() {
+    public boolean IsCapacitySpaceAvailable() {
         return this.isCapacity;
     }
 
@@ -21,7 +21,7 @@ public class ParkingLotOwner implements Observer {
     }
 
     @Override
-    public void capacityIsEmpty() {
+    public void capacityIsSpaceAvailable() {
         this.isCapacity=false;
 
     }

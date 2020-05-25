@@ -2,8 +2,8 @@ package com.bl.parkinglotsystem.observer;
 
 public interface Observer {
     boolean IsCapacityFull();
-    boolean IsCapacityEmpty();
+    boolean IsCapacitySpaceAvailable();
     void capacityIsFull();
-    void capacityIsEmpty();
+    void capacityIsSpaceAvailable();
 
 }

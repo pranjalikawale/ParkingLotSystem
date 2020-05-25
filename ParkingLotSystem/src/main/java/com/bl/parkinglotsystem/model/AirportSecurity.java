@@ -1,4 +1,4 @@
-package com.bl.parkinglotsystem;
+package com.bl.parkinglotsystem.model;
 
 import com.bl.parkinglotsystem.observer.Observer;
 
@@ -12,7 +12,7 @@ public class AirportSecurity implements Observer {
     }
 
     @Override
-    public boolean IsCapacityEmpty() {
+    public boolean IsCapacitySpaceAvailable() {
         return this.isCapacity;
     }
 
@@ -22,7 +22,7 @@ public class AirportSecurity implements Observer {
     }
 
     @Override
-    public void capacityIsEmpty() {
+    public void capacityIsSpaceAvailable() {
         this.isCapacity=false;
     }
 }

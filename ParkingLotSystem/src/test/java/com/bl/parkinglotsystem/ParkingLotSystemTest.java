@@ -1,6 +1,7 @@
 package com.bl.parkinglotsystem;
 
 import com.bl.parkinglotsystem.exception.ParkingLotSystemException;
+import com.bl.parkinglotsystem.model.AirportSecurity;
 import com.bl.parkinglotsystem.model.ParkingLotOwner;
 import com.bl.parkinglotsystem.parkinglotsystem.ParkingLotSystem;
 import org.junit.Assert;
@@ -100,5 +101,17 @@ public class ParkingLotSystemTest {
             Assert.assertTrue(capacityFull1&&capacityFull2);
         }
     }
-
+    @Test
+    public void givenParkingLot_WhenParkingSpaceAvailable_ShouldInformedOwner() {
+        ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
+        parkingLotSystem.registerSubscriber(parkingLotOwner);
+        try {
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(new Object());
+        }
+        catch (ParkingLotSystemException e){
+            boolean capacityEmpty=parkingLotOwner.IsCapacitySpaceAvailable();
+            Assert.assertTrue(capacityEmpty);
+        }
+    }
 }
