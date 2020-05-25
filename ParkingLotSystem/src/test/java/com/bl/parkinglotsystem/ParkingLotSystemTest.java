@@ -26,7 +26,7 @@ public class ParkingLotSystemTest {
             Assert.assertTrue(isParked);
         }
         catch (ParkingLotSystemException e){
-            Assert.assertEquals(e.getMessage(),"Parking lot is full");
+            Assert.assertEquals(ParkingLotSystemException.ExceptionType.FULL,e.type);
         }
     }
     @Test
@@ -36,7 +36,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.park(vehicle);
         }
         catch (ParkingLotSystemException e){
-            Assert.assertEquals(e.getMessage(),"Vehicle is already parked");
+            Assert.assertEquals(ParkingLotSystemException.ExceptionType.ALREADYPARKED,e.type);
         }
     }
 
@@ -48,7 +48,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.park(new Object());
         }
         catch (ParkingLotSystemException e){
-            Assert.assertEquals(e.getMessage(),"Parking lot is full");
+            Assert.assertEquals(ParkingLotSystemException.ExceptionType.FULL,e.type);
         }
     }
 
@@ -58,7 +58,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.park(vehicle);
             parkingLotSystem.unPark(vehicle);
         }catch (ParkingLotSystemException e){
-            Assert.assertEquals(e.getMessage(),"Space Available in parking lot");
+            Assert.assertEquals(ParkingLotSystemException.ExceptionType.SPACEAVAILABLE,e.type);
         }
     }
     @Test
@@ -67,7 +67,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.unPark(null);
         }
         catch (ParkingLotSystemException e){
-            Assert.assertEquals(e.getMessage(),"Parking lot is Empty");
+            Assert.assertEquals(ParkingLotSystemException.ExceptionType.EMPTY,e.type);
         }
     }
     @Test
