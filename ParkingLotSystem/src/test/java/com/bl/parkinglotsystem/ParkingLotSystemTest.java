@@ -47,7 +47,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.park(vehicle);
             parkingLotSystem.unPark(vehicle);
         }catch (ParkingLotSystemException e){
-            Assert.assertEquals(e.getMessage(),"Parking lot is Empty");
+            Assert.assertEquals(e.getMessage(),"Space Available in parking lot");
         }
     }
     @Test
@@ -107,11 +107,25 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerSubscriber(parkingLotOwner);
         try {
             parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Object());
+            parkingLotSystem.unPark(new Object());
         }
         catch (ParkingLotSystemException e){
             boolean capacityEmpty=parkingLotOwner.IsCapacitySpaceAvailable();
             Assert.assertTrue(capacityEmpty);
         }
     }
+    @Test
+    public void givenParkingLot_WhenParkingSpaceAvailable_ShouldInformedAirportSecurity() {
+        AirportSecurity airportSecurity=new AirportSecurity();
+        parkingLotSystem.registerSubscriber(airportSecurity);
+        try {
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.unPark(new Object());
+        }
+        catch (ParkingLotSystemException e){
+            boolean capacityEmpty=airportSecurity.IsCapacitySpaceAvailable();
+            Assert.assertTrue(capacityEmpty);
+        }
+    }
+
 }
