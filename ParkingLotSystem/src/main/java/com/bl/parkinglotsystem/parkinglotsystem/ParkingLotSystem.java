@@ -4,6 +4,8 @@ import com.bl.parkinglotsystem.exception.ParkingLotSystemException;
 import com.bl.parkinglotsystem.model.Vehicle;
 import com.bl.parkinglotsystem.observer.Observer;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 
 public class ParkingLotSystem {
@@ -45,7 +47,7 @@ public class ParkingLotSystem {
     }*/
 
     public int getEmptyListSize() {
-        return emptyList.size();
+        return 1+emptyList.size();
     }
 
     public int park(Vehicle vehicle) throws ParkingLotSystemException {
@@ -63,6 +65,7 @@ public class ParkingLotSystem {
         while(flag){
             token=selectRandomSlot();
             if(vehicleMap.get(token) == null){
+                vehicle.setParkedTime();
                 vehicleMap.put(token,vehicle);
                 if(emptyList.contains(token))
                     emptyList.remove(token);
@@ -72,7 +75,8 @@ public class ParkingLotSystem {
         return token;
     }
 
-    public void unPark(int token) throws ParkingLotSystemException{
+    public int unPark(int token) throws ParkingLotSystemException{
+        int charges=0;
         if (token<0)
             throw new ParkingLotSystemException("Parking lot is Empty",
                                                 ParkingLotSystemException.ExceptionType.EMPTY);
@@ -81,13 +85,18 @@ public class ParkingLotSystem {
             if (vehicleMap.size()==capacity){
                 for (Observer subscriber:subscriberList)
                     subscriber.capacityIsSpaceAvailable();
-                throw new ParkingLotSystemException("Space Available in parking lot",
-                                                    ParkingLotSystemException.ExceptionType.SPACEAVAILABLE);
+                throw new ParkingLotSystemException("Space available in parking lot",
+                                                     ParkingLotSystemException.ExceptionType
+                                                     .SPACEAVAILABLE);
             }
+            Vehicle vehicle=vehicleMap.get(token);
+            vehicle.setUnparkedTime();
+             charges= vehicle.calculateFare();
             vehicleMap.remove(token);
             if(emptyList.contains(token))
                 emptyList.add(token);
         }
+        return charges;
     }
 
     public boolean isVehicleParked(Vehicle vehicle) {
@@ -103,7 +112,8 @@ public class ParkingLotSystem {
     }
 
     public int selectRandomSlot(){
-        int  ranVal=1-(random.nextInt(capacity));
+        int  ranVal=random.nextInt(capacity);
         return ranVal;
     }
+
 }

@@ -219,6 +219,22 @@ public class ParkingLotSystemTest {
             Assert.assertFalse(capacityEmpty);
         }
     }
+    @Test
+    public void givenVehicle_WhenUnParked_ShouldReturnCharges() {
+        ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
+        parkingLotSystem.registerSubscriber(parkingLotOwner);
+        parkingLotSystem.setCapacity(3);
+        try {
+            int token=parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(new Vehicle());
+            int charges=parkingLotSystem.unPark(token);
+            Assert.assertEquals(100,charges);
+        }
+        catch (ParkingLotSystemException e){
+            boolean capacityEmpty=parkingLotOwner.IsCapacitySpaceAvailable();
+            Assert.assertFalse(capacityEmpty);
+        }
+    }
 
 
 }
