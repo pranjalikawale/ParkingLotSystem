@@ -3,26 +3,26 @@ package com.bl.parkinglotsystem.model;
 import com.bl.parkinglotsystem.observer.Observer;
 
 public class ParkingLotOwner implements Observer {
-    private boolean isCapacity;
+    private boolean isCapacityFull;
 
     @Override
     public boolean IsCapacityFull() {
-        return this.isCapacity ;
+        return this.isCapacityFull ;
     }
 
     @Override
     public boolean IsCapacitySpaceAvailable() {
-        return this.isCapacity;
+        return this.isCapacityFull;
     }
 
     @Override
     public void capacityIsFull() {
-        this.isCapacity=true;
+        this.isCapacityFull=true;
     }
 
     @Override
     public void capacityIsSpaceAvailable() {
-        this.isCapacity=false;
+        this.isCapacityFull=false;
 
     }
 }

@@ -107,11 +107,12 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerSubscriber(parkingLotOwner);
         try {
             parkingLotSystem.park(vehicle);
-            parkingLotSystem.unPark(new Object());
+            parkingLotSystem.park(new Object());
+            parkingLotSystem.unPark(vehicle);
         }
         catch (ParkingLotSystemException e){
             boolean capacityEmpty=parkingLotOwner.IsCapacitySpaceAvailable();
-            Assert.assertTrue(capacityEmpty);
+            Assert.assertFalse(capacityEmpty);
         }
     }
     @Test
@@ -120,11 +121,29 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerSubscriber(airportSecurity);
         try {
             parkingLotSystem.park(vehicle);
-            parkingLotSystem.unPark(new Object());
+            parkingLotSystem.park(new Object());
+            parkingLotSystem.unPark(vehicle);
         }
         catch (ParkingLotSystemException e){
             boolean capacityEmpty=airportSecurity.IsCapacitySpaceAvailable();
-            Assert.assertTrue(capacityEmpty);
+            Assert.assertFalse(capacityEmpty);
+        }
+    }
+    @Test
+    public void givenParkingLot_WhenParkingSpaceAvailable_ShouldInformedObserver() {
+        AirportSecurity airportSecurity=new AirportSecurity();
+        parkingLotSystem.registerSubscriber(airportSecurity);
+        ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
+        parkingLotSystem.registerSubscriber(parkingLotOwner);
+        try {
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(new Object());
+            parkingLotSystem.unPark(vehicle);
+        }
+        catch (ParkingLotSystemException e){
+            boolean capacityEmpty1=airportSecurity.IsCapacitySpaceAvailable();
+            boolean capacityEmpty2=parkingLotOwner.IsCapacitySpaceAvailable();
+            Assert.assertFalse(capacityEmpty1&&capacityEmpty2);
         }
     }
 
