@@ -204,7 +204,21 @@ public class ParkingLotSystemTest {
             Assert.assertFalse(capacityEmpty);
         }
     }
-
+    @Test
+    public void givenAParkinglot_WhenFindVehicle_ShouldReturnVehile() {
+        ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
+        parkingLotSystem.registerSubscriber(parkingLotOwner);
+        parkingLotSystem.setCapacity(3);
+        try {
+            int token=parkingLotSystem.park(vehicle);
+            parkingLotSystem.unPark(token);
+            Assert.assertEquals(3,parkingLotSystem.getEmptyListSize());
+        }
+        catch (ParkingLotSystemException e){
+            boolean capacityEmpty=parkingLotOwner.IsCapacitySpaceAvailable();
+            Assert.assertFalse(capacityEmpty);
+        }
+    }
 
 
 }
