@@ -3,6 +3,7 @@ package com.bl.parkinglotsystem;
 import com.bl.parkinglotsystem.exception.ParkingLotSystemException;
 import com.bl.parkinglotsystem.model.AirportSecurity;
 import com.bl.parkinglotsystem.model.ParkingLotOwner;
+import com.bl.parkinglotsystem.model.Vehicle;
 import com.bl.parkinglotsystem.parkinglotsystem.ParkingLotSystem;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,12 +11,12 @@ import org.junit.Test;
 
 public class ParkingLotSystemTest {
     ParkingLotSystem parkingLotSystem;
-    Object vehicle;
+    Vehicle vehicle;
 
     @Before
     public void setUp(){
         parkingLotSystem=new ParkingLotSystem(2);
-        vehicle=new Object();
+        vehicle=new Vehicle();
     }
 
     @Test
@@ -44,8 +45,8 @@ public class ParkingLotSystemTest {
     public void givenAVehicle_WhenParkingIsFull_ShouldReturnException() {
         try {
             parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Object());
-            parkingLotSystem.park(new Object());
+            parkingLotSystem.park(new Vehicle());
+            parkingLotSystem.park(new Vehicle());
         }
         catch (ParkingLotSystemException e){
             Assert.assertEquals(ParkingLotSystemException.ExceptionType.FULL,e.type);
@@ -76,8 +77,8 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerSubscriber(parkingLotOwner);
         try {
             parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Object());
-            parkingLotSystem.park(new Object());
+            parkingLotSystem.park(new Vehicle());
+            parkingLotSystem.park(new Vehicle());
         }
         catch (ParkingLotSystemException e){
             boolean capacityFull=parkingLotOwner.IsCapacityFull();
@@ -90,8 +91,8 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerSubscriber(airportSecurity);
         try {
             parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Object());
-            parkingLotSystem.park(new Object());
+            parkingLotSystem.park(new Vehicle());
+            parkingLotSystem.park(new Vehicle());
         }
         catch (ParkingLotSystemException e){
             boolean capacityFull=airportSecurity.IsCapacityFull();
@@ -106,8 +107,8 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerSubscriber(parkingLotOwner);
         try {
             parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Object());
-            parkingLotSystem.park(new Object());
+            parkingLotSystem.park(new Vehicle());
+            parkingLotSystem.park(new Vehicle());
         }
         catch (ParkingLotSystemException e){
             boolean capacityFull1=airportSecurity.IsCapacityFull();
@@ -121,7 +122,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerSubscriber(parkingLotOwner);
         try {
             parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Object());
+            parkingLotSystem.park(new Vehicle());
             parkingLotSystem.unPark(vehicle);
         }
         catch (ParkingLotSystemException e){
@@ -135,7 +136,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerSubscriber(airportSecurity);
         try {
             parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Object());
+            parkingLotSystem.park(new Vehicle());
             parkingLotSystem.unPark(vehicle);
         }
         catch (ParkingLotSystemException e){
@@ -151,7 +152,7 @@ public class ParkingLotSystemTest {
         parkingLotSystem.registerSubscriber(parkingLotOwner);
         try {
             parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Object());
+            parkingLotSystem.park(new Vehicle());
             parkingLotSystem.unPark(vehicle);
         }
         catch (ParkingLotSystemException e){
