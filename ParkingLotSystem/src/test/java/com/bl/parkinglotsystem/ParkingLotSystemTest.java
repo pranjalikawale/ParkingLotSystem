@@ -1,13 +1,20 @@
 package com.bl.parkinglotsystem;
 
+import com.bl.parkinglotsystem.attendant.Attendant;
+import com.bl.parkinglotsystem.driver.Driver;
 import com.bl.parkinglotsystem.exception.ParkingLotSystemException;
 import com.bl.parkinglotsystem.model.AirportSecurity;
 import com.bl.parkinglotsystem.model.ParkingLotOwner;
 import com.bl.parkinglotsystem.model.Vehicle;
+import com.bl.parkinglotsystem.observer.Observer;
 import com.bl.parkinglotsystem.parkinglotsystem.ParkingLotSystem;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
 
 public class ParkingLotSystemTest {
     ParkingLotSystem parkingLotSystem;
@@ -15,26 +22,29 @@ public class ParkingLotSystemTest {
 
     @Before
     public void setUp(){
-        parkingLotSystem=new ParkingLotSystem(2);
+        parkingLotSystem=new ParkingLotSystem(3);
         vehicle=new Vehicle();
+        parkingLotSystem.addParkingLot(1);
+        parkingLotSystem.registerAttendant(new Attendant[]{new Attendant("def"),new Attendant("xyz")});
     }
 
     @Test
     public void givenAVehicle_WhenParked_ShouldReturnTrue() {
         try {
-            int token=parkingLotSystem.park(vehicle);
-            boolean isParked=parkingLotSystem.isVehicleParked(token);
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            boolean isParked=parkingLotSystem.isVehicleParked(vehicle);
             Assert.assertTrue(isParked);
         }
         catch (ParkingLotSystemException e){
             Assert.assertEquals(ParkingLotSystemException.ExceptionType.FULL,e.type);
         }
     }
+
     @Test
     public void givenAVehicle_WhenAlreadyParked_ShouldReturnException() {
         try {
-            parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
         }
         catch (ParkingLotSystemException e){
             Assert.assertEquals(ParkingLotSystemException.ExceptionType.ALREADYPARKED,e.type);
@@ -44,9 +54,9 @@ public class ParkingLotSystemTest {
     @Test
     public void givenAVehicle_WhenParkingIsFull_ShouldReturnException() {
         try {
-            parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Vehicle());
-            parkingLotSystem.park(new Vehicle());
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
         }
         catch (ParkingLotSystemException e){
             Assert.assertEquals(ParkingLotSystemException.ExceptionType.FULL,e.type);
@@ -56,38 +66,32 @@ public class ParkingLotSystemTest {
     @Test
     public void givenAVehicle_WhenUnParked_ShouldReturnTrue() {
         try {
-            int token=parkingLotSystem.park(vehicle);
-            parkingLotSystem.unPark(token);
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            parkingLotSystem.findParkingSlot(vehicle);
         }catch (ParkingLotSystemException e){
             Assert.assertEquals(ParkingLotSystemException.ExceptionType.SPACEAVAILABLE,e.type);
         }
     }
+
     @Test
     public void givenAVehicle_WhenUnParked_ShouldReturnException() {
         try {
-            parkingLotSystem.unPark(-1);
+            String slot=parkingLotSystem.findParkingSlot(vehicle);
         }
         catch (ParkingLotSystemException e){
-            Assert.assertEquals(ParkingLotSystemException.ExceptionType.EMPTY,e.type);
+            Assert.assertEquals(ParkingLotSystemException.ExceptionType.NOSUCHVEHICLEFOUND,e.type);
         }
     }
-    @Test
-    public void givenAVehicle_WhenUnParked_ShouldReturnWrongToken() {
-        try {
-            parkingLotSystem.unPark(10);
-        }
-        catch (ParkingLotSystemException e){
-            Assert.assertEquals(ParkingLotSystemException.ExceptionType.EMPTY,e.type);
-        }
-    }
+
     @Test
     public void givenAVehicle_WhenParkingLotIsFull_ShouldInformedOwner() {
         ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
-        parkingLotSystem.registerSubscriber(parkingLotOwner);
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{parkingLotOwner});
         try {
-            parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Vehicle());
-            parkingLotSystem.park(new Vehicle());
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
         }
         catch (ParkingLotSystemException e){
             boolean capacityFull=parkingLotOwner.IsCapacityFull();
@@ -97,11 +101,11 @@ public class ParkingLotSystemTest {
     @Test
     public void givenAVehicle_WhenParkingLotIsFulll_ShouldInformedAirportSecurity() {
         AirportSecurity airportSecurity=new AirportSecurity();
-        parkingLotSystem.registerSubscriber(airportSecurity);
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{airportSecurity});
         try {
-            parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Vehicle());
-            parkingLotSystem.park(new Vehicle());
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
         }
         catch (ParkingLotSystemException e){
             boolean capacityFull=airportSecurity.IsCapacityFull();
@@ -111,13 +115,12 @@ public class ParkingLotSystemTest {
     @Test
     public void givenAVehicle_WhenParkingLotIsFulll_ShouldInformedObserver() {
         AirportSecurity airportSecurity=new AirportSecurity();
-        parkingLotSystem.registerSubscriber(airportSecurity);
         ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
-        parkingLotSystem.registerSubscriber(parkingLotOwner);
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{airportSecurity,parkingLotOwner});
         try {
-            parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Vehicle());
-            parkingLotSystem.park(new Vehicle());
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
         }
         catch (ParkingLotSystemException e){
             boolean capacityFull1=airportSecurity.IsCapacityFull();
@@ -128,11 +131,11 @@ public class ParkingLotSystemTest {
     @Test
     public void givenAVehicle_WhenParkingSpaceAvailable_ShouldInformedOwner() {
         ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
-        parkingLotSystem.registerSubscriber(parkingLotOwner);
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{parkingLotOwner});
         try {
-            int token=parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Vehicle());
-            parkingLotSystem.unPark(token);
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
+            parkingLotSystem.unParked(vehicle);
         }
         catch (ParkingLotSystemException e){
             boolean capacityEmpty=parkingLotOwner.IsCapacitySpaceAvailable();
@@ -142,11 +145,11 @@ public class ParkingLotSystemTest {
     @Test
     public void givenAVehicle_WhenParkingSpaceAvailable_ShouldInformedAirportSecurity() {
         AirportSecurity airportSecurity=new AirportSecurity();
-        parkingLotSystem.registerSubscriber(airportSecurity);
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{airportSecurity});
         try {
-            int token=parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Vehicle());
-            parkingLotSystem.unPark(token);
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
+            parkingLotSystem.unParked(vehicle);
         }
         catch (ParkingLotSystemException e){
             boolean capacityEmpty=airportSecurity.IsCapacitySpaceAvailable();
@@ -156,13 +159,12 @@ public class ParkingLotSystemTest {
     @Test
     public void givenAVehicle_WhenParkingSpaceAvailable_ShouldInformedObserver() {
         AirportSecurity airportSecurity=new AirportSecurity();
-        parkingLotSystem.registerSubscriber(airportSecurity);
         ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
-        parkingLotSystem.registerSubscriber(parkingLotOwner);
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{airportSecurity,parkingLotOwner});
         try {
-            int token=parkingLotSystem.park(vehicle);
-            parkingLotSystem.unPark(token);
-            token=parkingLotSystem.park(new Vehicle());
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            parkingLotSystem.unParked(vehicle);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
         }
         catch (ParkingLotSystemException e){
             boolean capacityEmpty1=airportSecurity.IsCapacitySpaceAvailable();
@@ -173,14 +175,13 @@ public class ParkingLotSystemTest {
     @Test
     public void givenSubscriber_WhenSubscriberIsRemoved_ShouldOnlyInformedRemainingObserver() {
         AirportSecurity airportSecurity=new AirportSecurity();
-        parkingLotSystem.registerSubscriber(airportSecurity);
         ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
-        parkingLotSystem.registerSubscriber(parkingLotOwner);
-        parkingLotSystem.registerUnsubscriber(airportSecurity);
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{parkingLotOwner,airportSecurity});
+        parkingLotSystem.removedSubscriber(new Observer[]{airportSecurity});
         try {
-            int token=parkingLotSystem.park(vehicle);
-            parkingLotSystem.unPark(token);
-            token=parkingLotSystem.park(new Vehicle());
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            parkingLotSystem.unParked(vehicle);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
         }
         catch (ParkingLotSystemException e){
             boolean capacityEmpty1=airportSecurity.IsCapacitySpaceAvailable();
@@ -191,13 +192,14 @@ public class ParkingLotSystemTest {
     @Test
     public void givenAVehicle_WhenParkingSpaceAvailable_ShouldReturnTotalEmptyParkingSlot() {
         ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
-        parkingLotSystem.registerSubscriber(parkingLotOwner);
-        parkingLotSystem.setCapacity(3);
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{parkingLotOwner});
+        //parkingLotSystem.setCapacity(3);
         try {
-            int token=parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Vehicle());
-            parkingLotSystem.unPark(token);
-            Assert.assertEquals(2,parkingLotSystem.getEmptyListSize());
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
+            parkingLotSystem.unParked(vehicle);
+            int[] slot=parkingLotSystem.getEmptyListSize();
+            Assert.assertEquals(2,slot[0]);
         }
         catch (ParkingLotSystemException e){
             boolean capacityEmpty=parkingLotOwner.IsCapacitySpaceAvailable();
@@ -205,14 +207,14 @@ public class ParkingLotSystemTest {
         }
     }
     @Test
-    public void givenAParkinglot_WhenFindVehicle_ShouldReturnVehile() {
+    public void givenAParkinglot_WhenFindVehicle_ShouldReturnParkingSlot() {
         ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
-        parkingLotSystem.registerSubscriber(parkingLotOwner);
-        parkingLotSystem.setCapacity(3);
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{parkingLotOwner});
         try {
-            int token=parkingLotSystem.park(vehicle);
-            parkingLotSystem.unPark(token);
-            Assert.assertEquals(3,parkingLotSystem.getEmptyListSize());
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            String slot=parkingLotSystem.findParkingSlot(vehicle);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
+            Assert.assertEquals("Level-1-B1",slot);
         }
         catch (ParkingLotSystemException e){
             boolean capacityEmpty=parkingLotOwner.IsCapacitySpaceAvailable();
@@ -222,12 +224,12 @@ public class ParkingLotSystemTest {
     @Test
     public void givenVehicle_WhenUnParked_ShouldReturnCharges() {
         ParkingLotOwner parkingLotOwner=new ParkingLotOwner();
-        parkingLotSystem.registerSubscriber(parkingLotOwner);
-        parkingLotSystem.setCapacity(3);
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{parkingLotOwner});
+        //parkingLotSystem.setCapacity(3);
         try {
-            int token=parkingLotSystem.park(vehicle);
-            parkingLotSystem.park(new Vehicle());
-            int charges=parkingLotSystem.unPark(token);
+            parkingLotSystem.park(vehicle,Driver.DriverType.NORMAL);
+            parkingLotSystem.park(new Vehicle(),Driver.DriverType.NORMAL);
+            int charges=parkingLotSystem.unParked(vehicle);
             Assert.assertEquals(100,charges);
         }
         catch (ParkingLotSystemException e){
@@ -235,6 +237,18 @@ public class ParkingLotSystemTest {
             Assert.assertFalse(capacityEmpty);
         }
     }
-
+    @Test
+    public void givenVehicle_WhenEvenlyParkedInParkinglot_ShouldReturnTrue() {
+        //Set number of parkingLot
+        parkingLotSystem.addParkingLot(1);
+        parkingLotSystem.registerAttendant(new Attendant[]{new Attendant("def"),new Attendant("xyz")});
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{new ParkingLotOwner(),
+                                                                new ParkingLotOwner()});
+        parkingLotSystem.park(vehicle, Driver.DriverType.NORMAL);
+        Vehicle vehicle1=new Vehicle();
+        parkingLotSystem.park(vehicle1, Driver.DriverType.NORMAL);
+        Assert.assertEquals("Level-1-B1",parkingLotSystem.findParkingSlot(vehicle));
+        Assert.assertEquals("Level-2-B1",parkingLotSystem.findParkingSlot(vehicle1));
+    }
 
 }

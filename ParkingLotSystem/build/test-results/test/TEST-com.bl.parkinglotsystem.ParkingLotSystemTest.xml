@@ -1,22 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bl.parkinglotsystem.ParkingLotSystemTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2020-05-25T16:52:32" hostname="SWAPNIKA" time="0.088">
+<testsuite name="com.bl.parkinglotsystem.ParkingLotSystemTest" tests="24" skipped="0" failures="1" errors="0" timestamp="2020-06-01T04:37:29" hostname="SWAPNIKA" time="0.465">
   <properties/>
-  <testcase name="givenAVehicle_WhenParkingLotIsFull_ShouldInformedOwner" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.013"/>
-  <testcase name="givenAVehicle_WhenUnParked_ShouldReturnException" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.002"/>
-  <testcase name="givenAParkinglot_WhenFindVehicle_ShouldReturnVehile" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.005"/>
-  <testcase name="givenAVehicle_WhenUnParked_ShouldReturnWrongToken" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.0"/>
-  <testcase name="givenSubscriber_WhenSubscriberIsRemoved_ShouldOnlyInformedRemainingObserver" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.004"/>
-  <testcase name="givenAVehicle_WhenParkingIsFull_ShouldReturnException" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.003"/>
+  <testcase name="givenAVehicle_WhenParkingLotIsFull_ShouldInformedOwner" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.204"/>
+  <testcase name="givenAVehicle_WhenUnParked_ShouldReturnException" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.0"/>
+  <testcase name="givenSubscriber_WhenSubscriberIsRemoved_ShouldOnlyInformedRemainingObserver" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.032"/>
+  <testcase name="givenAVehicle_WhenParkingIsFull_ShouldReturnException" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenVehicle_WhenDriverIsHandicap_ShouldReturnNearParkingSlot" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.007"/>
   <testcase name="givenAVehicle_WhenParkingSpaceAvailable_ShouldInformedAirportSecurity" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenParkingLot_WhenVehicleParked_ShouldReturnVehicleDetailsToInvestigateFraudulentPlateNumber" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.005"/>
   <testcase name="givenAVehicle_WhenAlreadyParked_ShouldReturnException" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.001"/>
-  <testcase name="givenAVehicle_WhenParked_ShouldReturnTrue" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.0"/>
-  <testcase name="givenAVehicle_WhenParkingLotIsFulll_ShouldInformedObserver" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.003"/>
-  <testcase name="givenAVehicle_WhenParkingSpaceAvailable_ShouldInformedObserver" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.003"/>
-  <testcase name="givenAVehicle_WhenUnParked_ShouldReturnTrue" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenParkingLot_WhenBlueToyotoParKed_ShouldReturnVehicleDetailToInvestigateRobberyCase" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.059"/>
+  <testcase name="givenAVehicle_WhenParked_ShouldReturnTrue" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.004"/>
+  <testcase name="givenParkingLot_WhenVehicleParkedInLaneA_ShouldReturnAllVehicleInformationDetail" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.01"/>
+  <testcase name="givenAVehicle_WhenParkingLotIsFulll_ShouldInformedObserver" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.004"/>
+  <testcase name="givenLargeVehicle_WhenParkingHavingMoreSpace_ShouldAllocateFreeSpaceParkinglot" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.013"/>
+  <testcase name="givenParkingLot_WhenAllBMWParKed_ShouldReturnVehicleDetailToIncreaseSecurity" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.004"/>
+  <testcase name="givenAVehicle_WhenParkingSpaceAvailable_ShouldInformedObserver" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.02"/>
+  <testcase name="givenParkingLot_WhenWhiteVehicleParKed_ShouldReturnLocationToInvestigateBombThreat" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.012"/>
+  <testcase name="givenAVehicle_WhenUnParked_ShouldReturnTrue" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.003"/>
   <testcase name="givenVehicle_WhenUnParked_ShouldReturnCharges" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.001"/>
-  <testcase name="givenAVehicle_WhenParkingLotIsFulll_ShouldInformedAirportSecurity" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.0"/>
+  <testcase name="givenVehicle_WhenEvenlyParkedInParkinglot_ShouldReturnTrue" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.009"/>
+  <testcase name="givenAVehicle_WhenParkingLotIsFulll_ShouldInformedAirportSecurity" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.001"/>
   <testcase name="givenAVehicle_WhenParkingSpaceAvailable_ShouldInformedOwner" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.001"/>
-  <testcase name="givenAVehicle_WhenParkingSpaceAvailable_ShouldReturnTotalEmptyParkingSlot" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.006"/>
+  <testcase name="givenAVehicle_WhenParkingSpaceAvailable_ShouldReturnTotalEmptyParkingSlot" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.003"/>
+  <testcase name="givenParkingLot_WhenVehicleParKedInLastThirtyMinute_ShouldReturnDetailsToInvestigateABombThreat" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.012">
+    <failure message="java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0" type="java.lang.IndexOutOfBoundsException">java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:458)
+	at com.bl.parkinglotsystem.ParkingLotSystemTest.givenParkingLot_WhenVehicleParKedInLastThirtyMinute_ShouldReturnDetailsToInvestigateABombThreat(ParkingLotSystemTest.java:387)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.runTestClass(JUnitTestClassExecutor.java:110)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:58)
+	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecutor.execute(JUnitTestClassExecutor.java:38)
+	at org.gradle.api.internal.tasks.testing.junit.AbstractJUnitTestClassProcessor.processTestClass(AbstractJUnitTestClassProcessor.java:62)
+	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:33)
+	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:94)
+	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
+	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:118)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:36)
+	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:182)
+	at org.gradle.internal.remote.internal.hub.MessageHubBackedObjectConnection$DispatchWrapper.dispatch(MessageHubBackedObjectConnection.java:164)
+	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:412)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.ManagedExecutorImpl$1.run(ManagedExecutorImpl.java:48)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+</failure>
+  </testcase>
+  <testcase name="givenAParkinglot_WhenFindVehicle_ShouldReturnParkingSlot" classname="com.bl.parkinglotsystem.ParkingLotSystemTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

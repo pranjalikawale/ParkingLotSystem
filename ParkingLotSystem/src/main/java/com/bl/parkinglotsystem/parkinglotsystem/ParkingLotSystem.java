@@ -1,119 +1,212 @@
+/*********************************************************************
+ * @purpose: Parking Lot System
+ * @author: Pranjali Kawale
+ * @date: 24-05-20
+ *********************************************************************/
 package com.bl.parkinglotsystem.parkinglotsystem;
 
+import com.bl.parkinglotsystem.ParkingLot.ParkingLot;
+import com.bl.parkinglotsystem.attendant.Attendant;
+import com.bl.parkinglotsystem.driver.Driver;
 import com.bl.parkinglotsystem.exception.ParkingLotSystemException;
 import com.bl.parkinglotsystem.model.Vehicle;
 import com.bl.parkinglotsystem.observer.Observer;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
 public class ParkingLotSystem {
-    private HashMap<Integer,Vehicle> vehicleMap ;
-    private List<Observer> subscriberList;
-    private List<Integer> emptyList;
+    //Variable
     private int capacity;
-    Random random;
-    int token;
-    private boolean flag=true;
+    private List<ParkingLot> parkingLotList;
 
-    public ParkingLotSystem(int capacity) {
-        vehicleMap=new HashMap<>();
-        subscriberList=new ArrayList<>();
-        emptyList=new ArrayList<>();
-        random=new Random();
+    //Constructor
+   public ParkingLotSystem(int capacity) {
+        parkingLotList=new ArrayList<>();
         this.capacity=capacity;
     }
 
-    public void registerSubscriber(Observer observer){
-        subscriberList.add(observer);
+    /**
+     * @purpose: No of parking lot
+     * @param parkingLotSize
+     */
+    public void addParkingLot(int parkingLotSize){
+       int size=parkingLotList.size()+parkingLotSize;
+        for (int i=parkingLotList.size();i<size;i++)
+            parkingLotList.add(new ParkingLot(capacity,"Level-"+size+"-"));
     }
 
-    public void registerUnsubscriber(Observer observer){
-        subscriberList.remove(observer);
+    /**
+     * @purpose: Get Information By Vehicle Color from parkinglot
+     * @param color
+     * @return
+     */
+    public Map<Integer,List<String>> getInformationByVehicleColor(Vehicle.Color color) {
+      Map<Integer,List<String>> parkingInformationDetail=new HashMap<>();
+        for (int i=0;i<parkingLotList.size();i++)
+            parkingInformationDetail.put(i,parkingLotList.get(i).getParkingInformationByColor(color));
+        return parkingInformationDetail;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-        setEmptyList();
-    }
-    public void setEmptyList(){
-       for(int i=0;i<capacity;i++)
-           emptyList.add(i);
-    }
-    /*
-    public List<Integer> getEmptyList() {
-        return emptyList;
-    }*/
-
-    public int getEmptyListSize() {
-        return 1+emptyList.size();
+    /**
+     * @purpose: Get Information By Vehicle Color And Model from parkinglot
+     * @param color
+     * @param model
+     * @return parkingInformationDetailMap
+     */
+    public Map<Integer,List<Vehicle>> getInformationByVehicleColorAndModel(Vehicle.Color color,
+                                                                                  Vehicle.Model model) {
+        Map<Integer,List<Vehicle>> parkingInformationDetailMap=new HashMap<>();
+        for (int i=0;i<parkingLotList.size();i++)
+            parkingInformationDetailMap.put(i,parkingLotList.get(i).getParkingInformationByColorAndModel(color,model));
+        return parkingInformationDetailMap;
     }
 
-    public int park(Vehicle vehicle) throws ParkingLotSystemException {
-        if (vehicleMap.size()==capacity){
-            for (Observer subscriber:subscriberList) {
-                subscriber.capacityIsFull();
-            }
-            throw new ParkingLotSystemException("Parking lot is full",
-                                                ParkingLotSystemException.ExceptionType.FULL);
+    /**
+     * @purpose: Get Information By Vehicle Model from parkinglot
+     * @param model
+     * @return parkingInformationDetailMap
+     */
+    public Map<Integer,List<Vehicle>> getInformationByVehicleModel(Vehicle.Model model) {
+        Map<Integer,List<Vehicle>> parkingInformationDetailMap=new HashMap<>();
+        for (int i=0;i<parkingLotList.size();i++)
+            parkingInformationDetailMap.put(i,parkingLotList.get(i).getParkingInformationByModel(model));
+        return parkingInformationDetailMap;
+    }
+
+    /***
+     * @purpose: Get Information By time from parkinglot
+     * @param time
+     * @return parkingInformationDetailMap
+     */
+    public Map<Integer,List<Vehicle>> getInformationByTime(Instant time) {
+        Map<Integer,List<Vehicle>> parkingInformationDetailMap=new HashMap<>();
+        for (int i=0;i<parkingLotList.size();i++)
+            parkingInformationDetailMap.put(i,parkingLotList.get(i).getParkingInformationByTime(time));
+        return parkingInformationDetailMap;
+    }
+
+    /***
+     * @purpose: Get Information By Lane from parkinglot
+     * @param lane
+     * @return parkingInformationDetailMap
+     */
+    public Map<Integer,List<Vehicle>> getInformationByLaneWise(String lane) {
+        Map<Integer,List<Vehicle>> parkingInformationDetailMap=new HashMap<>();
+        for (int i=0;i<parkingLotList.size();i++)
+            parkingInformationDetailMap.put(i,parkingLotList.get(i).getParkingInformationByLaneNo(lane));
+        return parkingInformationDetailMap;
+    }
+
+    /***
+     * @purpose: Get Information Of All Vehicle from parkinglot
+     * @return parkingInformationDetailMap
+     */
+    public Map<Integer,List<Vehicle>> getInformationOfAllCar() {
+        Map<Integer,List<Vehicle>> parkingInformationDetailMap=new HashMap<>();
+        for (int i=0;i<parkingLotList.size();i++)
+            parkingInformationDetailMap.put(i,parkingLotList.get(i).getParkingInformationOfAllVehicle());
+        return parkingInformationDetailMap;
+    }
+
+    /***
+     * @purpose: To park vehicle in parkinglot
+     * @param vehicle
+     * @param driverType
+     * @throws ParkingLotSystemException
+     */
+    public void park(Vehicle vehicle, Driver.DriverType driverType) throws ParkingLotSystemException {
+       //ParkingLot EmptySlots
+        if(parkingLotList.size()>1) {
+            parkingLotList.sort(Comparator.comparing(ParkingLot::EmptyListSize).reversed());
+            parkingLotList.get(0).park(vehicle,driverType);
+            return;
         }
-        if (isVehicleParked(vehicle))
-            throw new ParkingLotSystemException("Vehicle is already parked",
-                                                ParkingLotSystemException.ExceptionType.ALREADYPARKED);
-
-        while(flag){
-            token=selectRandomSlot();
-            if(vehicleMap.get(token) == null){
-                vehicle.setParkedTime();
-                vehicleMap.put(token,vehicle);
-                if(emptyList.contains(token))
-                    emptyList.remove(token);
-                break;
-            }
-        }
-        return token;
+         parkingLotList.get(0).park(vehicle,driverType);
     }
 
-    public int unPark(int token) throws ParkingLotSystemException{
-        int charges=0;
-        if (token<0)
-            throw new ParkingLotSystemException("Parking lot is Empty",
-                                                ParkingLotSystemException.ExceptionType.EMPTY);
+    /***
+     * @purpose: To check vehicle is park or not
+     * @param vehicle
+     * @return
+     */
+    public boolean isVehicleParked(Vehicle vehicle){
+        boolean flag=false;
+        for (int i=0;i<parkingLotList.size();i++)
+            flag=parkingLotList.get(i).isVehicleParked(vehicle);
+        return flag;
+    }
 
-        if (isVehicleParked(token)){
-            if (vehicleMap.size()==capacity){
-                for (Observer subscriber:subscriberList)
-                    subscriber.capacityIsSpaceAvailable();
-                throw new ParkingLotSystemException("Space available in parking lot",
-                                                     ParkingLotSystemException.ExceptionType
-                                                     .SPACEAVAILABLE);
-            }
-            Vehicle vehicle=vehicleMap.get(token);
-            vehicle.setUnparkedTime();
-             charges= vehicle.calculateFare();
-            vehicleMap.remove(token);
-            if(emptyList.contains(token))
-                emptyList.add(token);
-        }
+    /***
+     * @purpose: To get empty slot list
+     * @return emptySlotList
+     */
+    public int[] getEmptyListSize(){
+        int[] emptySlotList=new int[parkingLotList.size()];
+        for (int i=0;i<parkingLotList.size();i++)
+            emptySlotList[i]=parkingLotList.get(i).EmptyListSize();
+        return emptySlotList;
+    }
+
+    /***+
+     * @purpose: To unpark a vehicle from parking lot
+     * @param vehicle
+     * @return charges
+     */
+    public int unParked(Vehicle vehicle){
+       int charges=0;
+       for (int i=0;i<parkingLotList.size();i++){
+           charges=parkingLotList.get(i).unPark(vehicle);
+           if(charges!=0)
+               break;
+       }
         return charges;
     }
 
-    public boolean isVehicleParked(Vehicle vehicle) {
-        if(vehicleMap.containsValue(vehicle))
-            return true;
-        return false;
+    /***
+     * @purpose To find parking slot of vehicle
+     * @param vehicle
+     * @return slot
+     */
+    public String findParkingSlot(Vehicle vehicle){
+        for (int i=0;i<parkingLotList.size();i++){
+           String slot=parkingLotList.get(i).findParkingSlot(vehicle);
+            if(slot!=null)
+                return slot;
+        }
+        throw new ParkingLotSystemException("No such Vehicle found",ParkingLotSystemException.ExceptionType.NOSUCHVEHICLEFOUND);
     }
 
-    public boolean isVehicleParked(int token){
-        if(vehicleMap.containsKey(token))
-            return true;
-        return false;
+    /***
+     * @purpose To Register Subscriber of parkinglot
+     * @param observer
+     */
+    public void registerSubscriberPLS(Observer[] observer){
+        for (int i=0;i<parkingLotList.size();i++) {
+            parkingLotList.get(i).registerSubscriber(observer[i]);
+        }
     }
 
-    public int selectRandomSlot(){
-        int  ranVal=random.nextInt(capacity);
-        return ranVal;
+    /***
+     * @purpose To remove Subscriber of parkinglot
+     * @param observer
+     */
+    public void removedSubscriber(Observer[] observer){
+        for (int i=0;i<parkingLotList.size();i++) {
+            parkingLotList.get(i).registerUnsubscriber(observer[i]);
+        }
+    }
+
+    /***
+     * @purpose To register attendant of parkingslot
+     * @param attendants
+     */
+    public  void registerAttendant(Attendant[] attendants){
+        for (int i=0,j=0;i<attendants.length;i++) {
+            parkingLotList.get(j).addAttendant(attendants[i]);
+            if(j<parkingLotList.size()-1)
+                j++;
+        }
     }
 
 }
