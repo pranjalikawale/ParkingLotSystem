@@ -325,4 +325,23 @@ public class ParkingLotSystemTest {
         Map<Integer, List<Vehicle>> information=parkingLotSystem.getInformationByVehicleModel(Vehicle.Model.BMW);
         Assert.assertEquals(vehicle1,information.get(1).get(0));
     }
+    @Test
+    public void givenParkingLot_WhenVehicleParkedInLaneA_ShouldReturnAllVehicleInformationDetail(){
+        //Set number of parkingLot
+        parkingLotSystem.addParkingLot(1);
+        parkingLotSystem.registerAttendant(new Attendant[]{new Attendant(),new Attendant()});
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{new ParkingLotOwner(), new ParkingLotOwner()});
+
+        Vehicle vehicle1=new Vehicle("MH243", Vehicle.Color.BLUE, Vehicle.Model.BMW, Vehicle.Size.SMALL);
+        parkingLotSystem.park(vehicle1,Driver.DriverType.NORMAL);
+        parkingLotSystem.park(new Vehicle("MH243", Vehicle.Color.WHITE, Vehicle.Model.TOYOTO, Vehicle.Size.SMALL),
+                Driver.DriverType.HANDICAP);
+        parkingLotSystem.park(new Vehicle("MH123", Vehicle.Color.WHITE,Vehicle.Model.BMW,Vehicle.Size.SMALL),
+                Driver.DriverType.NORMAL);
+
+        Map<Integer, List<Vehicle>> information=parkingLotSystem
+                .getInformationByLaneWise("A");
+        Assert.assertEquals(Driver.DriverType.HANDICAP,information.get(0).get(0).getDriverType());
+    }
+
 }
