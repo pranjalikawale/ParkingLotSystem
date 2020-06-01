@@ -250,5 +250,13 @@ public class ParkingLotSystemTest {
         Assert.assertEquals("Level-1-B1",parkingLotSystem.findParkingSlot(vehicle));
         Assert.assertEquals("Level-2-B1",parkingLotSystem.findParkingSlot(vehicle1));
     }
-
+    @Test
+    public void givenVehicle_WhenDriverIsHandicap_ShouldReturnNearParkingSlot() {
+        //Set number of parkingLot
+        parkingLotSystem.addParkingLot(1);
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{new ParkingLotOwner()
+                , new ParkingLotOwner()});
+        parkingLotSystem.park(vehicle, Driver.DriverType.HANDICAP);
+        Assert.assertEquals("Level-1-A1",parkingLotSystem.findParkingSlot(vehicle));
+    }
 }
