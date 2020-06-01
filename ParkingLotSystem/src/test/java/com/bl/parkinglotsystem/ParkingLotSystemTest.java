@@ -259,4 +259,19 @@ public class ParkingLotSystemTest {
         parkingLotSystem.park(vehicle, Driver.DriverType.HANDICAP);
         Assert.assertEquals("Level-1-A1",parkingLotSystem.findParkingSlot(vehicle));
     }
+    @Test
+    public void givenLargeVehicle_WhenParkingHavingMoreSpace_ShouldAllocateFreeSpaceParkinglot() {
+        //Set number of parkingLot
+        parkingLotSystem.addParkingLot(1);
+        parkingLotSystem.registerAttendant(new Attendant[]{new Attendant("pqr"),new Attendant("std")});
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{new ParkingLotOwner(), new ParkingLotOwner()});
+        parkingLotSystem.park(new Vehicle("MH123", Vehicle.Color.WHITE,Vehicle.Size.LARGE), Driver.DriverType.NORMAL);
+        parkingLotSystem.park(new Vehicle("MH223", Vehicle.Color.WHITE,Vehicle.Size.SMALL), Driver.DriverType.NORMAL);
+        parkingLotSystem.park(new Vehicle("MH323", Vehicle.Color.WHITE,Vehicle.Size.LARGE), Driver.DriverType.HANDICAP);
+        parkingLotSystem.park(new Vehicle("MH243", Vehicle.Color.WHITE, Vehicle.Size.SMALL), Driver.DriverType.NORMAL);
+        Vehicle vehicle1=new Vehicle("MH243", Vehicle.Color.WHITE, Vehicle.Size.LARGE);
+        parkingLotSystem.park(vehicle1,Driver.DriverType.NORMAL);
+        Assert.assertEquals("Level-1-A1",parkingLotSystem.findParkingSlot(vehicle1));
+    }
+
 }
