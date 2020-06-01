@@ -343,5 +343,22 @@ public class ParkingLotSystemTest {
                 .getInformationByLaneWise("A");
         Assert.assertEquals(Driver.DriverType.HANDICAP,information.get(0).get(0).getDriverType());
     }
+    @Test
+    public void givenParkingLot_WhenVehicleParked_ShouldReturnVehicleDetailsToInvestigateFraudulentPlateNumber(){
+        //Set number of parkingLot
+        parkingLotSystem.addParkingLot(1);
+        parkingLotSystem.registerAttendant(new Attendant[]{new Attendant(),new Attendant()});
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{new ParkingLotOwner(), new ParkingLotOwner()});
+
+        Vehicle vehicle1=new Vehicle("MH243", Vehicle.Color.BLUE, Vehicle.Model.BMW);
+        parkingLotSystem.park(vehicle1,Driver.DriverType.NORMAL);
+        parkingLotSystem.park(new Vehicle("MH243", Vehicle.Color.WHITE, Vehicle.Model.TOYOTO),
+                Driver.DriverType.NORMAL);
+        parkingLotSystem.park(new Vehicle("MH123", Vehicle.Color.WHITE,Vehicle.Model.BMW),
+                Driver.DriverType.NORMAL);
+
+        Map<Integer, List<Vehicle>> information=parkingLotSystem.getInformationOfAllCar();
+        Assert.assertEquals(vehicle1,information.get(1).get(0));
+    }
 
 }
