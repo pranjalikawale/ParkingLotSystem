@@ -273,5 +273,22 @@ public class ParkingLotSystemTest {
         parkingLotSystem.park(vehicle1,Driver.DriverType.NORMAL);
         Assert.assertEquals("Level-1-A1",parkingLotSystem.findParkingSlot(vehicle1));
     }
+    @Test
+    public void givenParkingLot_WhenWhiteVehicleParKed_ShouldReturnLocationToInvestigateBombThreat(){
+        //Set number of parkingLot
+        parkingLotSystem.addParkingLot(1);
+        parkingLotSystem.registerAttendant(new Attendant[]{new Attendant(),new Attendant()});
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{new ParkingLotOwner(), new ParkingLotOwner()});
+
+        Vehicle vehicle1=new Vehicle("MH243", Vehicle.Color.WHITE, Vehicle.Size.LARGE);
+        parkingLotSystem.park(vehicle1,Driver.DriverType.NORMAL);
+        parkingLotSystem.park(new Vehicle("MH123", Vehicle.Color.WHITE,Vehicle.Size.LARGE),
+                Driver.DriverType.NORMAL);
+        parkingLotSystem.park(new Vehicle("MH243", Vehicle.Color.BLUE, Vehicle.Size.SMALL),
+                Driver.DriverType.NORMAL);
+
+        Map<Integer, List<String>> location=parkingLotSystem.getInformationByVehicleColor(Vehicle.Color.WHITE);
+        Assert.assertEquals("Level-2-B1",location.get(0).get(0));
+    }
 
 }
