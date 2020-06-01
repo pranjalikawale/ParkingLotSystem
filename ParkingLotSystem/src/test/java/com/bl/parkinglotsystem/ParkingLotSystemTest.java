@@ -290,5 +290,22 @@ public class ParkingLotSystemTest {
         Map<Integer, List<String>> location=parkingLotSystem.getInformationByVehicleColor(Vehicle.Color.WHITE);
         Assert.assertEquals("Level-2-B1",location.get(0).get(0));
     }
+    @Test
+    public void givenParkingLot_WhenBlueToyotoParKed_ShouldReturnVehicleDetailToInvestigateRobberyCase(){
+        //Set number of parkingLot
+        parkingLotSystem.addParkingLot(1);
+        parkingLotSystem.registerAttendant(new Attendant[]{new Attendant("abc"),new Attendant("xyz")});
+        parkingLotSystem.registerSubscriberPLS(new Observer[]{new ParkingLotOwner(), new ParkingLotOwner()});
 
+        parkingLotSystem.park(new Vehicle("MH123", Vehicle.Color.WHITE,Vehicle.Size.LARGE),
+                Driver.DriverType.NORMAL);
+        Vehicle vehicle1=new Vehicle("MH243", Vehicle.Color.BLUE, Vehicle.Model.TOYOTO);
+        parkingLotSystem.park(vehicle1,Driver.DriverType.NORMAL);
+        parkingLotSystem.park(new Vehicle("MH243", Vehicle.Color.WHITE, Vehicle.Size.LARGE),
+                Driver.DriverType.NORMAL);
+
+        Map<Integer, List<Vehicle>> information=parkingLotSystem.getInformationByVehicleColorAndModel
+                (Vehicle.Color.BLUE,Vehicle.Model.TOYOTO);
+        Assert.assertEquals(vehicle1,information.get(0).get(0));
+    }
 }
